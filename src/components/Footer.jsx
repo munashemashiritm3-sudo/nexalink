@@ -1,6 +1,7 @@
 import React from 'react';
 import { COMPANY_INFO } from '../data/mockData';
 import { Phone, Mail, MapPin, Clock, ArrowUpRight, ShieldCheck } from 'lucide-react';
+import LazyImage from './LazyImage';
 
 export default function Footer({ setRoute, onOpenQuote }) {
   const handleNav = (route) => {
@@ -19,7 +20,7 @@ export default function Footer({ setRoute, onOpenQuote }) {
               onClick={() => handleNav('home')} 
               className="cursor-pointer inline-block"
             >
-              <img 
+              <LazyImage 
                 src="/assets/logo.png" 
                 alt="Nexalink Solutions" 
                 className="h-14 md:h-16 w-auto object-contain bg-white/95 rounded-lg p-1.5 shadow-md hover:scale-105 transition-transform" 
@@ -29,10 +30,12 @@ export default function Footer({ setRoute, onOpenQuote }) {
               {COMPANY_INFO.tagline}
             </p>
             <div className="pt-2 text-xs space-y-2">
-              <div className="flex items-start gap-2 text-slate-200">
-                <MapPin className="w-4 h-4 text-[#E63946] shrink-0 mt-0.5" />
-                <span>{COMPANY_INFO.address}</span>
-              </div>
+              {COMPANY_INFO.address ? (
+                <div className="flex items-start gap-2 text-slate-200">
+                  <MapPin className="w-4 h-4 text-[#E63946] shrink-0 mt-0.5" />
+                  <span>{COMPANY_INFO.address}</span>
+                </div>
+              ) : null}
               <div className="flex items-center gap-2 text-slate-200">
                 <Clock className="w-4 h-4 text-[#38BDF8] shrink-0" />
                 <span>{COMPANY_INFO.hours}</span>
@@ -101,8 +104,8 @@ export default function Footer({ setRoute, onOpenQuote }) {
                 </button>
               </li>
               <li>
-                <button onClick={() => handleNav('insights')} className="hover:text-white transition-colors">
-                  Insights & Tech Blog
+                <button onClick={() => handleNav('rates')} className="hover:text-white transition-colors">
+                  Live Exchange Rates
                 </button>
               </li>
               <li>
@@ -153,13 +156,17 @@ export default function Footer({ setRoute, onOpenQuote }) {
               Connect With Us
             </h4>
             <div className="space-y-2 text-xs">
+              <a href={`tel:${COMPANY_INFO.landline}`} className="flex items-center gap-2 text-slate-200 hover:text-white transition-colors">
+                <Phone className="w-3.5 h-3.5 text-emerald-400" />
+                <span className="font-mono">{COMPANY_INFO.landline}</span> (Landline)
+              </a>
               <a href={`tel:${COMPANY_INFO.phone}`} className="flex items-center gap-2 text-slate-200 hover:text-white transition-colors">
                 <Phone className="w-3.5 h-3.5 text-[#E63946]" />
-                {COMPANY_INFO.phone}
+                <span className="font-mono">{COMPANY_INFO.phone}</span> (Mobile)
               </a>
-              <a href={`mailto:${COMPANY_INFO.email}`} className="flex items-center gap-2 text-slate-200 hover:text-white transition-colors">
-                <Mail className="w-3.5 h-3.5 text-[#38BDF8]" />
-                {COMPANY_INFO.email}
+              <a href={`mailto:${COMPANY_INFO.email}`} className="flex items-center gap-2 text-slate-200 hover:text-white transition-colors truncate">
+                <Mail className="w-3.5 h-3.5 text-[#38BDF8] shrink-0" />
+                <span className="truncate">{COMPANY_INFO.email}</span>
               </a>
               <span className="flex items-center gap-2 text-[#38BDF8] font-mono font-bold">
                 🌐 {COMPANY_INFO.website}

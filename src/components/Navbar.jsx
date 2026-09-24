@@ -11,7 +11,7 @@ export default function Navbar({ currentRoute, setRoute, onOpenQuote, onOpenPort
     { label: 'Solutions', route: 'solutions' },
     { label: 'Industries', route: 'industries' },
     { label: 'Client Portal', route: 'portal' },
-    { label: 'Insights', route: 'insights' },
+
     { label: 'Contact', route: 'contact' },
   ];
 
@@ -40,13 +40,6 @@ export default function Navbar({ currentRoute, setRoute, onOpenQuote, onOpenPort
             <span className="inline-flex items-center gap-1 text-[#38BDF8] font-semibold text-[11px]">
               <Shield className="w-3.5 h-3.5" /> Authorised Starlink Reseller
             </span>
-            <span className="text-slate-500">|</span>
-            <button 
-              onClick={() => handleNavClick('contact')} 
-              className="text-slate-200 hover:text-white text-[11px] underline font-medium"
-            >
-              Shop 33 Island Mall Harare
-            </button>
           </div>
         </div>
       </div>
@@ -74,9 +67,9 @@ export default function Navbar({ currentRoute, setRoute, onOpenQuote, onOpenPort
               <button
                 key={item.route}
                 onClick={() => handleNavClick(item.route)}
-                className={`px-3.5 py-2 rounded-lg text-sm font-bold transition-all duration-200 ${
+                className={`nav-link-underline px-3.5 py-2 rounded-lg text-sm font-bold transition-all duration-200 outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E63946]/40 ${
                   isActive
-                    ? 'text-[#E63946] bg-red-50 border border-red-100 shadow-sm'
+                    ? 'nav-active text-[#E63946] bg-red-50 border border-red-100 shadow-sm'
                     : 'text-[#0E2A47] hover:text-[#E63946] hover:bg-slate-100/80'
                 }`}
               >
@@ -131,7 +124,7 @@ export default function Navbar({ currentRoute, setRoute, onOpenQuote, onOpenPort
               <button
                 key={item.route}
                 onClick={() => handleNavClick(item.route)}
-                className={`w-full text-left px-4 py-3 rounded-xl text-base font-bold flex items-center justify-between ${
+                className={`w-full text-left px-4 py-3 rounded-xl text-base font-bold flex items-center justify-between outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E63946]/40 ${
                   currentRoute === item.route
                     ? 'bg-[#E63946] text-white'
                     : 'text-[#0E2A47] hover:bg-slate-100'

@@ -2,12 +2,13 @@ export const COMPANY_INFO = {
   name: "Nexalink Solutions Pvt Ltd",
   slogan: "Smart Solutions. Seamless Service.",
   tagline: "Connecting businesses, technology and everyday services through reliable, innovative and integrated solutions.",
+  landline: "0882914627",
   phone: "+263 788 172 075",
   altPhone: "+263 784 559 107",
-  whatsapp: "+263 713 123 055",
-  email: "info@nexalink.co.zw",
+  whatsapp: "+263 788 172 075",
+  email: "infoatnexalinksolutions@gmail.com",
   website: "nexalink",
-  address: "Shop 33, Island Mall, Cnr Innez Terrace & Jason Moyo, Harare, Zimbabwe",
+  address: "Msasa Depot, Harare, Zimbabwe",
   hours: "Mon - Sat: 8:00 AM – 5:00 PM",
   year: 2026
 };
@@ -19,7 +20,7 @@ export const LEADERSHIP_TEAM = [
     bio: "Visionary entrepreneur and tech strategist leading Nexalink's mission to bridge technology, logistics, and everyday business services across Zimbabwe.",
     email: "m.chikwature@nexalink.co.zw",
     phone: "+263 788 172 075",
-    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80"
+    image: ""
   },
   {
     name: "Ashley Maria Machiridza",
@@ -27,7 +28,7 @@ export const LEADERSHIP_TEAM = [
     bio: "Dynamic marketing leader driving brand strategy, customer relationships, and strategic B2B expansion across Southern Africa.",
     email: "a.machiridza@nexalink.co.zw",
     phone: "+263 784 559 107",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80"
+    image: ""
   }
 ];
 
@@ -240,6 +241,6 @@ export const FAQS = [
   {
     category: "Bill Payments",
     q: "Which payment methods are accepted for ZESA, DStv, and School Fees?",
-    a: "We accept EcoCash, InnBucks, OMARI, OneMoney, Visa, Mastercard, and cash at our Shop 33 Island Mall, Harare branch."
+    a: "We accept EcoCash, InnBucks, OMARI, OneMoney, Visa, Mastercard, and cash at our Harare branch."
   }
 ];

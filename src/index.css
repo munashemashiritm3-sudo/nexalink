@@ -82,3 +82,151 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #E63946;
 }
+
+/* ====== LAZY IMAGE SHIMMER (Idea #13) ====== */
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.lazy-image-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.lazy-image-shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #E2E8F0 25%, #F1F5F9 50%, #E2E8F0 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+  border-radius: inherit;
+  z-index: 1;
+}
+
+.lazy-image-loaded {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.lazy-image-loading {
+  opacity: 0;
+}
+
+/* ====== MICRO-INTERACTIONS (Idea #2) ====== */
+
+/* Fade-slide-up on scroll entry */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-slide-up {
+  animation: fadeSlideUp 0.7s ease-out both;
+}
+
+/* Staggered delays */
+.animation-delay-100 { animation-delay: 0.1s; }
+.animation-delay-200 { animation-delay: 0.2s; }
+.animation-delay-300 { animation-delay: 0.3s; }
+.animation-delay-400 { animation-delay: 0.4s; }
+.animation-delay-500 { animation-delay: 0.5s; }
+
+/* Nav link animated underline */
+.nav-link-underline {
+  position: relative;
+}
+.nav-link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: #E63946;
+  border-radius: 2px;
+  transition: width 0.3s ease, left 0.3s ease;
+}
+.nav-link-underline:hover::after {
+  width: 70%;
+  left: 15%;
+}
+.nav-link-underline.nav-active::after {
+  width: 70%;
+  left: 15%;
+  background: #E63946;
+}
+
+/* Button hover lift */
+.hover-lift {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px -5px rgba(14, 42, 71, 0.15);
+}
+
+/* Card hover grow */
+.hover-grow {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.hover-grow:hover {
+  transform: scale(1.02);
+  box-shadow: 0 12px 30px -8px rgba(14, 42, 71, 0.15);
+}
+
+/* Icon pulse on hover */
+.icon-pulse {
+  transition: transform 0.3s ease;
+}
+.icon-pulse:hover {
+  transform: scale(1.15);
+}
+
+/* CTA magnet effect */
+.cta-magnet {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.cta-magnet:hover {
+  transform: translateY(-2px) scale(1.03);
+}
+
+/* Subtle float animation for hero elements */
+@keyframes subtleFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.animate-float {
+  animation: subtleFloat 3s ease-in-out infinite;
+}
+
+/* Chat widget animations */
+@keyframes chatSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.animate-chat-in {
+  animation: chatSlideUp 0.3s ease-out both;
+}
+
+@keyframes typingBounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-4px); }
+}
+.typing-dot {
+  animation: typingBounce 1.4s ease-in-out infinite;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.15s; }
+.typing-dot:nth-child(3) { animation-delay: 0.3s; }

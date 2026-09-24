@@ -7,6 +7,14 @@
     <title>Nexalink Solutions | Smart Solutions. Seamless Service.</title>
     <meta name="description" content="Nexalink Solutions Pvt Ltd is Zimbabwe's leading B2B and B2C technology platform for Starlink Satellite Internet, ZINARA vehicle licensing renewals, $60 GPS tracking, Japan vehicle imports, and digital bill payments." />
     
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#0E2A47" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Nexalink" />
+    <link rel="apple-touch-icon" href="/assets/logo.png" />
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,5 +23,17 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((reg) => console.log('SW registered:', reg.scope))
+            .catch((err) => console.log('SW registration failed:', err));
+        });
+      }
+    </script>
   </body>
 </html>
+

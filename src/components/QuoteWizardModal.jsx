@@ -262,7 +262,7 @@ export default function QuoteWizardModal({ isOpen, onClose }) {
                     onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                     className="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-slate-900 focus:border-[#E63946] focus:outline-none"
                   >
-                    <option value="Harare">Harare (Shop 33 Island Mall)</option>
+                    <option value="Harare">Harare</option>
                     <option value="Bulawayo">Bulawayo</option>
                     <option value="Gweru">Gweru</option>
                     <option value="Mutare">Mutare</option>

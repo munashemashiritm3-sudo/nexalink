@@ -65,11 +65,8 @@ export default function About({ onOpenQuote }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {LEADERSHIP_TEAM.map((leader, i) => (
             <div key={i} className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center gap-6">
-              <img
-                src={leader.image}
-                alt={leader.name}
-                className="w-28 h-28 rounded-2xl object-cover border-2 border-slate-200 shrink-0 shadow-sm"
-              />
+              {/* Image removed / left blank as requested */}
+              <div className="w-28 h-28 rounded-2xl bg-slate-100 border-2 border-slate-200 shrink-0 shadow-xs" />
               <div className="space-y-2 text-center sm:text-left">
                 <h3 className="text-xl font-extrabold text-[#0E2A47]">{leader.name}</h3>
                 <span className="inline-block px-3 py-0.5 rounded-full text-xs font-extrabold bg-red-50 text-[#E63946] border border-red-200">
@@ -94,7 +91,7 @@ export default function About({ onOpenQuote }) {
             <div className="lg:col-span-6 space-y-4">
               <span className="text-xs font-extrabold uppercase tracking-wider text-[#0284C7]">Visit Our Office</span>
               <h2 className="text-2xl sm:text-3xl font-black text-[#0E2A47]">
-                Island Mall Branch, Harare
+                Harare Office
               </h2>
               <p className="text-sm text-slate-600 leading-relaxed font-normal">
                 Drop by our physical office for instant cash payments, Starlink hardware pickups, or walk-in vehicle licensing renewals.
@@ -103,7 +100,7 @@ export default function About({ onOpenQuote }) {
               <div className="space-y-3 text-xs text-slate-700 pt-2">
                 <div className="flex items-start gap-3">
                   <MapPin className="w-4 h-4 text-[#E63946] shrink-0 mt-0.5" />
-                  <span><strong>Address:</strong> {COMPANY_INFO.address}</span>
+                  <span><strong>Address:</strong> {COMPANY_INFO.address || ''}</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Clock className="w-4 h-4 text-[#0284C7] shrink-0" />

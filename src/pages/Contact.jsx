@@ -45,10 +45,13 @@ export default function Contact({ onOpenQuote }) {
             <div className="w-10 h-10 rounded-xl bg-red-50 border border-red-100 flex items-center justify-center text-[#E63946]">
               <Phone className="w-5 h-5" />
             </div>
-            <h3 className="text-base font-bold text-[#0E2A47]">Direct Calling</h3>
-            <p className="text-xs text-slate-700 font-mono">{COMPANY_INFO.phone}</p>
-            <p className="text-xs text-slate-700 font-mono">{COMPANY_INFO.altPhone}</p>
-            <span className="text-[10px] text-slate-500 block">Mon - Sat: 8:00am - 5:00pm</span>
+            <h3 className="text-base font-bold text-[#0E2A47]">Telephone & Mobile</h3>
+            <div className="space-y-1 text-xs text-slate-700">
+              <p><strong className="text-slate-900 font-semibold">Landline:</strong> <a href={`tel:${COMPANY_INFO.landline}`} className="font-mono text-emerald-600 hover:underline">{COMPANY_INFO.landline}</a></p>
+              <p><strong className="text-slate-900 font-semibold">Mobile 1:</strong> <span className="font-mono">{COMPANY_INFO.phone}</span></p>
+              <p><strong className="text-slate-900 font-semibold">Mobile 2:</strong> <span className="font-mono">{COMPANY_INFO.altPhone}</span></p>
+            </div>
+            <span className="text-[10px] text-slate-500 block pt-1">Mon - Sat: 8:00am - 5:00pm</span>
           </div>
 
           <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-3">
@@ -57,6 +60,7 @@ export default function Contact({ onOpenQuote }) {
             </div>
             <h3 className="text-base font-bold text-[#0E2A47]">WhatsApp Care Desk</h3>
             <p className="text-xs text-slate-700 font-mono">{COMPANY_INFO.whatsapp}</p>
+            <p className="text-xs text-slate-700 font-mono">{COMPANY_INFO.altPhone}</p>
             <a
               href={`https://wa.me/${COMPANY_INFO.whatsapp.replace(/[^\d+]/g, '')}`}
               target="_blank"
@@ -72,7 +76,9 @@ export default function Contact({ onOpenQuote }) {
               <Mail className="w-5 h-5" />
             </div>
             <h3 className="text-base font-bold text-[#0E2A47]">Official Email</h3>
-            <p className="text-xs text-slate-700 font-mono">{COMPANY_INFO.email}</p>
+            <a href={`mailto:${COMPANY_INFO.email}`} className="text-xs text-slate-700 font-mono hover:text-[#0284C7] hover:underline block break-all">
+              {COMPANY_INFO.email}
+            </a>
             <span className="text-[10px] text-slate-500 block">Typical response within 1 hour</span>
           </div>
 
@@ -81,8 +87,8 @@ export default function Contact({ onOpenQuote }) {
               <MapPin className="w-5 h-5" />
             </div>
             <h3 className="text-base font-bold text-[#0E2A47]">Harare Office</h3>
-            <p className="text-xs text-slate-700 leading-snug">{COMPANY_INFO.address}</p>
-            <span className="text-[10px] text-[#0284C7] block font-bold">Walk-ins Welcome</span>
+            <p className="text-xs text-slate-700 leading-snug">{COMPANY_INFO.address || ''}</p>
+            <span className="text-[10px] text-[#0284C7] block font-bold">Harare, Zimbabwe</span>
           </div>
 
         </div>
@@ -190,13 +196,13 @@ export default function Contact({ onOpenQuote }) {
             <div className="lg:col-span-5 bg-slate-900 p-6 rounded-2xl border border-slate-800 text-white space-y-6 flex flex-col justify-between shadow-md">
               <div className="space-y-4">
                 <h4 className="text-lg font-bold text-white flex items-center gap-2">
-                  <MapPin className="w-5 h-5 text-[#00F2FE]" /> Branch Directions
+                  <MapPin className="w-5 h-5 text-[#00F2FE]" /> Branch Operations
                 </h4>
                 <p className="text-xs text-slate-300 leading-relaxed">
-                  We are conveniently located at Shop 33, Island Mall, at the corner of Innez Terrace & Jason Moyo in Harare Central Business District.
+                  Serving businesses, fleet operators, and residential clients across Harare and Zimbabwe.
                 </p>
                 <div className="p-4 bg-slate-950 rounded-xl border border-slate-800 text-xs space-y-2 font-mono">
-                  <p className="text-[#00F2FE]">📌 Landmark: Near Jason Moyo Avenue</p>
+                  <p className="text-[#00F2FE]">📌 Harare, Zimbabwe</p>
                   <p className="text-slate-300">🕒 Mon-Sat: 8:00 AM - 5:00 PM</p>
                   <p className="text-[#E63946]">⚡ Walk-in ZINARA disc printing</p>
                 </div>

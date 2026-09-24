@@ -1,6 +1,7 @@
 import React from 'react';
 import { COMPANY_INFO, SOLUTIONS_CATEGORIES, WHY_NEXALINK_PILLARS, HOW_IT_WORKS_STEPS, INDUSTRIES_SERVED } from '../data/mockData';
 import { ArrowRight, CheckCircle2, Shield, Zap, Layers, Users, Wifi, Car, ShieldCheck, BarChart3, CreditCard, Server, PhoneCall } from 'lucide-react';
+import LazyImage from '../components/LazyImage';
 
 export default function Home({ setRoute, onOpenQuote, onOpenPortal }) {
   const handleNav = (route) => {
@@ -28,7 +29,7 @@ export default function Home({ setRoute, onOpenQuote, onOpenPortal }) {
         <div className="relative max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
           {/* Hero Left Content */}
-          <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
+          <div className="lg:col-span-7 space-y-6 text-center lg:text-left animate-fade-slide-up">
             
             {/* Top Pill */}
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-slate-300 text-xs font-bold text-[#0E2A47] shadow-sm">
@@ -51,7 +52,7 @@ export default function Home({ setRoute, onOpenQuote, onOpenPortal }) {
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
               <button
                 onClick={onOpenQuote}
-                className="w-full sm:w-auto px-8 py-4 rounded-xl text-base font-extrabold text-white bg-[#E63946] hover:bg-[#D92638] shadow-lg shadow-red-500/25 hover:shadow-red-600/40 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
+                className="cta-magnet w-full sm:w-auto px-8 py-4 rounded-xl text-base font-extrabold text-white bg-[#E63946] hover:bg-[#D92638] shadow-lg shadow-red-500/25 hover:shadow-red-600/40 transition-all flex items-center justify-center gap-2"
               >
                 Get a Quote
                 <ArrowRight className="w-5 h-5" />
@@ -59,7 +60,7 @@ export default function Home({ setRoute, onOpenQuote, onOpenPortal }) {
 
               <button
                 onClick={() => handleNav('solutions')}
-                className="w-full sm:w-auto px-8 py-4 rounded-xl text-base font-bold text-[#0E2A47] border border-slate-300 hover:border-slate-400 bg-white hover:bg-slate-50 transition-all shadow-sm flex items-center justify-center gap-2"
+                className="hover-lift w-full sm:w-auto px-8 py-4 rounded-xl text-base font-bold text-[#0E2A47] border border-slate-300 hover:border-slate-400 bg-white hover:bg-slate-50 transition-all shadow-sm flex items-center justify-center gap-2"
               >
                 Explore Our Solutions
               </button>
@@ -84,11 +85,11 @@ export default function Home({ setRoute, onOpenQuote, onOpenPortal }) {
           </div>
 
           {/* Hero Right Visual: Single Official Logo Card Showcase */}
-          <div className="lg:col-span-5 relative">
-            <div className="bg-white rounded-3xl p-6 relative z-10 space-y-5 border border-slate-200 shadow-xl">
+          <div className="lg:col-span-5 relative animate-fade-slide-up animation-delay-300">
+            <div className="animate-float bg-white rounded-3xl p-6 relative z-10 space-y-5 border border-slate-200 shadow-xl">
               
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                <img src="/assets/logo.png" alt="Nexalink Solutions" className="h-10 w-auto object-contain" />
+                <LazyImage src="/assets/logo.png" alt="Nexalink Solutions" className="h-10 w-auto object-contain" />
                 <span className="px-2.5 py-1 rounded-full text-[10px] font-black bg-emerald-100 text-emerald-800 border border-emerald-300">
                   LIVE ZIMBABWE DESK
                 </span>
@@ -96,7 +97,7 @@ export default function Home({ setRoute, onOpenQuote, onOpenPortal }) {
 
               {/* Flyer highlight snippet */}
               <div className="relative rounded-2xl overflow-hidden group border border-slate-200">
-                <img 
+                <LazyImage 
                   src="/assets/starlink-infinity-flyer.png" 
                   alt="Infinity Connect Starlink" 
                   className="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500"
@@ -158,7 +159,7 @@ export default function Home({ setRoute, onOpenQuote, onOpenPortal }) {
 
       {/* SECTION 3: OUR SOLUTIONS (5 INTERACTIVE CARDS) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="text-center space-y-2">
+        <div className="text-center space-y-2 animate-fade-slide-up">
           <span className="text-xs font-extrabold uppercase tracking-wider text-[#E63946]">Comprehensive Offerings</span>
           <h2 className="text-3xl sm:text-4xl font-black text-[#0E2A47]">Our 5 Core Solutions</h2>
           <p className="text-sm text-slate-600 max-w-2xl mx-auto">
@@ -170,11 +171,12 @@ export default function Home({ setRoute, onOpenQuote, onOpenPortal }) {
           {SOLUTIONS_CATEGORIES.map((cat, idx) => (
             <div 
               key={cat.id} 
-              className={`bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md hover:border-red-300 transition-all flex flex-col justify-between group ${idx === 0 ? 'lg:col-span-2' : ''}`}
+              className={`hover-grow bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:border-red-300 flex flex-col justify-between group animate-fade-slide-up ${idx === 0 ? 'lg:col-span-2' : ''}`}
+              style={{ animationDelay: `${idx * 0.1}s` }}
             >
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <div className="p-3 rounded-xl bg-slate-100 border border-slate-200">
+                  <div className="icon-pulse p-3 rounded-xl bg-slate-100 border border-slate-200">
                     {getIcon(cat.icon)}
                   </div>
                   <span className="text-[10px] font-bold text-slate-400 font-mono">0{idx + 1} / SOLUTION</span>
@@ -229,7 +231,7 @@ export default function Home({ setRoute, onOpenQuote, onOpenPortal }) {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {WHY_NEXALINK_PILLARS.map((p, i) => (
-              <div key={i} className="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3 shadow-sm">
+              <div key={i} className="hover-grow bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3 shadow-sm animate-fade-slide-up" style={{ animationDelay: `${i * 0.1}s` }}>
                 <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-[#E63946] shadow-xs">
                   {i === 0 && <CheckCircle2 className="w-5 h-5 text-[#E63946]" />}
                   {i === 1 && <Zap className="w-5 h-5 text-[#0284C7]" />}
@@ -305,7 +307,7 @@ export default function Home({ setRoute, onOpenQuote, onOpenPortal }) {
 
         <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4">
           {HOW_IT_WORKS_STEPS.map((s, i) => (
-            <div key={i} className="bg-white p-5 rounded-2xl border border-slate-200 space-y-3 shadow-xs">
+            <div key={i} className="hover-lift bg-white p-5 rounded-2xl border border-slate-200 space-y-3 shadow-xs animate-fade-slide-up" style={{ animationDelay: `${i * 0.1}s` }}>
               <span className="text-2xl font-black text-[#E63946] font-mono">{s.step}</span>
               <h3 className="text-base font-bold text-[#0E2A47]">{s.title}</h3>
               <p className="text-xs text-slate-600 leading-relaxed font-normal">{s.desc}</p>
@@ -395,7 +397,7 @@ export default function Home({ setRoute, onOpenQuote, onOpenPortal }) {
             <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
               <button
                 onClick={onOpenQuote}
-                className="w-full sm:w-auto px-8 py-4 rounded-xl text-base font-extrabold text-[#0E2A47] bg-white hover:bg-slate-100 shadow-xl transition-all"
+                className="cta-magnet w-full sm:w-auto px-8 py-4 rounded-xl text-base font-extrabold text-[#0E2A47] bg-white hover:bg-slate-100 shadow-xl transition-all"
               >
                 Request a Quote Now
               </button>

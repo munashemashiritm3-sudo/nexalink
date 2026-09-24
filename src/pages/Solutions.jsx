@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { SOLUTIONS_CATEGORIES, STARLINK_PACKAGES } from '../data/mockData';
 import { Wifi, Car, ShieldCheck, CheckCircle2, ArrowRight } from 'lucide-react';
+import LazyImage from '../components/LazyImage';
 
 export default function Solutions({ onOpenQuote, setRoute }) {
   const [activeTab, setActiveTab] = useState('all');
@@ -15,7 +16,7 @@ export default function Solutions({ onOpenQuote, setRoute }) {
       
       {/* Header Banner */}
       <section className="bg-hero-glow py-14 border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4 animate-fade-slide-up">
           <span className="text-xs font-extrabold uppercase tracking-wider text-[#0284C7]">Solutions Directory</span>
           <h1 className="text-4xl font-black text-[#0E2A47]">
             Integrated Business & Vehicle Solutions
@@ -84,7 +85,7 @@ export default function Solutions({ onOpenQuote, setRoute }) {
                 <div
                   key={pkg.id}
                   onClick={() => setSelectedStarlinkPlan(pkg.id)}
-                  className={`p-5 rounded-2xl border cursor-pointer transition-all space-y-3 relative ${
+                  className={`hover-grow p-5 rounded-2xl border cursor-pointer transition-all space-y-3 relative ${
                     selectedStarlinkPlan === pkg.id
                       ? 'bg-slate-50 border-[#0284C7] shadow-md ring-2 ring-[#0284C7]'
                       : 'bg-white border-slate-200 hover:border-slate-300'
@@ -118,7 +119,7 @@ export default function Solutions({ onOpenQuote, setRoute }) {
 
             {/* Flyer Image Preview */}
             <div className="rounded-2xl bg-slate-50 p-5 border border-slate-200 flex flex-col md:flex-row items-center gap-6">
-              <img 
+              <LazyImage 
                 src="/assets/starlink-infinity-flyer.png" 
                 alt="Infinity Connect Flyer" 
                 className="w-full md:w-64 h-auto rounded-xl border border-slate-300 shadow-sm"
@@ -176,7 +177,7 @@ export default function Solutions({ onOpenQuote, setRoute }) {
             {/* 3 Vehicle Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               
-              <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4 flex flex-col justify-between">
+              <div className="hover-grow bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4 flex flex-col justify-between">
                 <div className="space-y-3">
                   <span className="text-2xl font-black text-[#0284C7] font-mono">US$60</span>
                   <h4 className="text-lg font-extrabold text-[#0E2A47]">Motor Vehicle Tracker Package</h4>
@@ -189,10 +190,10 @@ export default function Solutions({ onOpenQuote, setRoute }) {
                     <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#0284C7]" /> Route History & Speed Alerts</li>
                   </ul>
                 </div>
-                <img src="/assets/vehicle-tracker-flyer.jpg" alt="Tracker Flyer" className="w-full h-40 object-cover rounded-xl border border-slate-300 shadow-xs" />
+                <LazyImage src="/assets/vehicle-tracker-flyer.jpg" alt="Tracker Flyer" className="w-full h-40 object-cover rounded-xl border border-slate-300 shadow-xs" />
               </div>
 
-              <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4 flex flex-col justify-between">
+              <div className="hover-grow bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4 flex flex-col justify-between">
                 <div className="space-y-3">
                   <span className="text-xs font-bold text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded-full border border-emerald-200">SAME-DAY DELIVERY</span>
                   <h4 className="text-lg font-extrabold text-[#0E2A47]">ZINARA & ZBC License Renewals</h4>
@@ -205,10 +206,10 @@ export default function Solutions({ onOpenQuote, setRoute }) {
                     <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> Trusted by 300+ Car Owners</li>
                   </ul>
                 </div>
-                <img src="/assets/vehicle-licensing-flyer.png" alt="Licensing Flyer" className="w-full h-40 object-cover rounded-xl border border-slate-300 shadow-xs" />
+                <LazyImage src="/assets/vehicle-licensing-flyer.png" alt="Licensing Flyer" className="w-full h-40 object-cover rounded-xl border border-slate-300 shadow-xs" />
               </div>
 
-              <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4 flex flex-col justify-between">
+              <div className="hover-grow bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4 flex flex-col justify-between">
                 <div className="space-y-3">
                   <span className="text-xs font-bold text-amber-800 bg-amber-100 px-2.5 py-1 rounded-full border border-amber-200">JAPAN TO DRIVEWAY</span>
                   <h4 className="text-lg font-extrabold text-[#0E2A47]">Japan Vehicle Import Sourcing</h4>
@@ -221,7 +222,7 @@ export default function Solutions({ onOpenQuote, setRoute }) {
                     <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-amber-600" /> Hassle-Free Harare Delivery</li>
                   </ul>
                 </div>
-                <img src="/assets/japan-car-import-flyer.jpg" alt="Japan Import Flyer" className="w-full h-40 object-cover rounded-xl border border-slate-300 shadow-xs" />
+                <LazyImage src="/assets/japan-car-import-flyer.jpg" alt="Japan Import Flyer" className="w-full h-40 object-cover rounded-xl border border-slate-300 shadow-xs" />
               </div>
 
             </div>
@@ -238,7 +239,7 @@ export default function Solutions({ onOpenQuote, setRoute }) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {filteredSolutions.map((sol) => (
-            <div key={sol.id} className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+            <div key={sol.id} className="hover-grow bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
               <h4 className="text-xl font-extrabold text-[#0E2A47]">{sol.title}</h4>
               <p className="text-xs text-slate-600 leading-relaxed font-normal">{sol.tagline}</p>
               <ul className="space-y-2 text-xs text-slate-700 font-medium">
