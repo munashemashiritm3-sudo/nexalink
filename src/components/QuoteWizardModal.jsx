@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SOLUTIONS_CATEGORIES } from '../data/mockData';
+import { SOLUTIONS_CATEGORIES, COMPANY_INFO } from '../data/mockData';
 import { X, Check, ArrowRight, ArrowLeft, Upload, ShieldCheck, CheckCircle2, Copy, FileText, Send } from 'lucide-react';
 
 export default function QuoteWizardModal({ isOpen, onClose }) {
@@ -21,6 +21,8 @@ export default function QuoteWizardModal({ isOpen, onClose }) {
   const [copied, setCopied] = useState(false);
 
   if (!isOpen) return null;
+
+  const companyPhoneClean = COMPANY_INFO.phone.replace(/[^\d]/g, '');
 
   const customerTypes = [
     { id: 'Individual', label: 'Individual / Personal', desc: 'Vehicle licensing, home internet, tracker, utility bills' },
@@ -54,6 +56,21 @@ export default function QuoteWizardModal({ isOpen, onClose }) {
     if (step > 1) setStep(step - 1);
   };
 
+  const dispatchToCompanyWhatsApp = (payload) => {
+    const msg = `*Nexalink New Quote Request (${payload.leadReference})*\n` +
+      `Customer Type: ${payload.customerType}\n` +
+      `Name: ${payload.contact.name}\n` +
+      `Company: ${payload.contact.company}\n` +
+      `Email: ${payload.contact.email}\n` +
+      `Phone: ${payload.contact.phone}\n` +
+      `Location: ${payload.contact.location}\n` +
+      `Services: ${payload.requestedServices.join(', ')}\n` +
+      `Units/Vehicles: ${payload.projectSpecs.unitsOrVehicles}\n` +
+      `Details: ${payload.projectSpecs.details}`;
+
+    window.open(`https://wa.me/${companyPhoneClean}?text=${encodeURIComponent(msg)}`, '_blank');
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const refId = `NX-LEAD-${Math.floor(100000 + Math.random() * 900000)}`;
@@ -80,6 +97,8 @@ export default function QuoteWizardModal({ isOpen, onClose }) {
 
     setSubmittedPayload(payload);
     setStep(5);
+    // Dispatch quote directly to company's number
+    dispatchToCompanyWhatsApp(payload);
   };
 
   const handleCopyPayload = () => {
@@ -90,16 +109,7 @@ export default function QuoteWizardModal({ isOpen, onClose }) {
 
   const sendToWhatsApp = () => {
     if (!submittedPayload) return;
-    const msg = `*Nexalink Quote Request (${submittedPayload.leadReference})*\n` +
-      `Type: ${submittedPayload.customerType}\n` +
-      `Name: ${submittedPayload.contact.name}\n` +
-      `Company: ${submittedPayload.contact.company}\n` +
-      `Phone: ${submittedPayload.contact.phone}\n` +
-      `Services: ${submittedPayload.requestedServices.join(', ')}\n` +
-      `Units: ${submittedPayload.projectSpecs.unitsOrVehicles}\n` +
-      `Details: ${submittedPayload.projectSpecs.details}`;
-    
-    window.open(`https://wa.me/263713123055?text=${encodeURIComponent(msg)}`, '_blank');
+    dispatchToCompanyWhatsApp(submittedPayload);
   };
 
   return (
@@ -370,14 +380,14 @@ export default function QuoteWizardModal({ isOpen, onClose }) {
 
               <div className="bg-slate-50 border border-slate-200 p-4 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
                 <div>
-                  <p className="font-bold text-[#0E2A47]">Want faster response on WhatsApp?</p>
-                  <p className="text-slate-600">Directly dispatch your quote reference to our Harare desk (+263 713 123 055).</p>
+                  <p className="font-bold text-[#0E2A47]">Quote Dispatched to Company Desk</p>
+                  <p className="text-slate-600">Your quote request was sent directly to our official company number ({COMPANY_INFO.phone}).</p>
                 </div>
                 <button
                   onClick={sendToWhatsApp}
                   className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold rounded-xl shadow flex items-center gap-1.5 shrink-0"
                 >
-                  <Send className="w-4 h-4" /> Send via WhatsApp
+                  <Send className="w-4 h-4" /> Re-send via WhatsApp
                 </button>
               </div>
             </div>

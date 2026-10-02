@@ -16,6 +16,8 @@ import {
   Wifi
 } from 'lucide-react';
 
+import { COMPANY_INFO } from '../data/mockData';
+
 // Default baseline rates for Zimbabwe (ZiG / ZWL)
 // 1 USD approx 26.85 ZWL/ZiG official, ~35.00 parallel market benchmark
 const BASE_OFFICIAL_USD_ZWL = 26.8547;
@@ -580,12 +582,12 @@ export default function Rates({ onOpenQuote }) {
                 Request Service Quote <ArrowUpRight className="w-4 h-4" />
               </button>
               <a
-                href="https://wa.me/263713123055"
+                href={`https://wa.me/${COMPANY_INFO.phone.replace(/[^\d]/g, '')}`}
                 target="_blank"
                 rel="noreferrer"
                 className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow transition-colors flex items-center justify-center gap-2"
               >
-                WhatsApp Desk: +263 713 123 055
+                WhatsApp Desk: {COMPANY_INFO.phone}
               </a>
             </div>
 
