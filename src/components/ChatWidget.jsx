@@ -2,7 +2,15 @@ import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send, Bot, User, PhoneCall, ExternalLink, ShieldCheck, RefreshCw, CreditCard, Car, Wifi } from 'lucide-react';
 import { COMPANY_INFO, MOCK_CLIENT_DATA, STARLINK_PACKAGES } from '../data/mockData';
 
-export default function ChatWidget({ clientData = MOCK_CLIENT_DATA, onOpenOrderModal, onOpenPayment, externalOpen, onExternalOpenChange }) {
+const CORE_SOLUTIONS = [
+  { icon: '📡', label: 'Connectivity & IT Solutions', query: 'Tell me about connectivity and IT solutions' },
+  { icon: '🚗', label: 'Vehicle Services & Licensing', query: 'Tell me about vehicle services and licensing' },
+  { icon: '📍', label: 'Logistics, Tracking & Mobility', query: 'Tell me about logistics, tracking and mobility' },
+  { icon: '💼', label: 'Business Solutions & Consulting', query: 'Tell me about business solutions and consulting' },
+  { icon: '⚡', label: 'Digital Utility & Bill Payments', query: 'Tell me about digital utility and bill payments' },
+];
+
+export default function ChatWidget({ clientData = MOCK_CLIENT_DATA, isLoggedIn = false, onOpenOrderModal, onOpenPayment, externalOpen, onExternalOpenChange }) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
@@ -34,18 +42,39 @@ export default function ChatWidget({ clientData = MOCK_CLIENT_DATA, onOpenOrderM
       setIsTyping(true);
       setTimeout(() => {
         setIsTyping(false);
-        setMessages([
-          {
-            role: 'bot',
-            text: `Hello ${clientData?.clientName || 'there'}! 👋 Welcome to **Nexalink Solutions AI Support**.\n\nI have active context for **${clientData?.companyName || 'Nexalink Portal'}** (Account \`${clientData?.accountNumber || 'NX-884920'}\`).\n\nYou can ask me about:\n• 📊 **Your Account** (Current balance, invoices, tickets)\n• 🚗 **Fleet Vehicles** (ZINARA & insurance expiry dates)\n• 📡 **Starlink Internet** (Infinity Connect packages & setup)\n• 📍 **GPS Trackers** ($60 full package, no subscription)\n• 💬 Or request human intervention at any time!`,
-            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            actions: [
-              { label: 'Check My Balance', query: 'What is my current balance?' },
-              { label: 'Fleet Status', query: 'Check my fleet vehicle expiry dates' },
-              { label: 'Starlink Plans', query: 'What Starlink packages do you have?' }
-            ]
-          }
-        ]);
+        if (isLoggedIn && clientData?.accountNumber) {
+          // Logged-in greeting: show portal summary + proactive CTAs
+          const unpaidCount = clientData.invoices?.filter(i => i.status === 'Unpaid').length || 0;
+          const activeServices = clientData.itServices?.map(s => `• **${s.service}** — ${s.package} (${s.status})`).join('\n') || '• No active services found';
+          const renewalWarnings = clientData.fleetVehicles?.filter(v => v.status === 'Renewal Warning').map(v => v.reg) || [];
+
+          setMessages([
+            {
+              role: 'bot',
+              text: `Welcome back, **${clientData.clientName || clientData.companyName}**! 👋\n\nHere is a quick overview of your portal:\n\n💰 **Outstanding Balance:** US$${clientData.balance?.toFixed(2) || '0.00'} (${unpaidCount} unpaid invoice${unpaidCount !== 1 ? 's' : ''})\n\n🌐 **Active Services:**\n${activeServices}${
+                renewalWarnings.length > 0
+                  ? `\n\n⚠️ **Renewal Alerts:** ${renewalWarnings.join(', ')} require immediate ZINARA/Insurance renewal!`
+                  : ''
+              }\n\nWould you like to process a payment, get support, or do you have a specific query?`,
+              time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+              actions: [
+                { label: `Pay US$${clientData.balance?.toFixed(2)} Balance`, actionType: 'pay' },
+                { label: 'Fleet & Vehicle Status', query: 'Check my fleet vehicle expiry dates' },
+                { label: 'Open Support Ticket', query: 'What are my support tickets?' }
+              ]
+            }
+          ]);
+        } else {
+          // Guest / not logged in: welcome + 5 core solutions
+          setMessages([
+            {
+              role: 'bot',
+              text: `Welcome to **Nexalink Solutions**! 👋 I'm your AI assistant, here to help.\n\nWe offer the following core solutions:\n\n📡 **1. Connectivity & IT Solutions**\n🚗 **2. Vehicle Services & Licensing**\n📍 **3. Logistics, Tracking & Mobility**\n💼 **4. Business Solutions & Consulting**\n⚡ **5. Digital Utility & Bill Payments**\n\nWould you like to know more about any of these? Or you can **log in to your client portal** to access your account details!`,
+              time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+              actions: CORE_SOLUTIONS
+            }
+          ]);
+        }
       }, 700);
     }
   };
@@ -191,25 +220,92 @@ export default function ChatWidget({ clientData = MOCK_CLIENT_DATA, onOpenOrderM
       };
     }
 
-    // 12. Friendly Greetings
-    if (q.startsWith('hi') || q.startsWith('hello') || q.startsWith('hey') || q.includes('good morning') || q.includes('good afternoon') || q.includes('maswera') || q.includes('mangwanani')) {
+    // 12. Core solutions queries (from guest menu)
+    if (q.includes('connectivity') || q.includes('it solution')) {
       return {
-        text: `Hello! 👋 Great to hear from you. I'm Nexalink's AI Assistant.\n\nI can help you manage your account **${clientData.accountNumber}**, check fleet renewal deadlines, explore Starlink $77 unlimited packages, or place a direct WhatsApp order. What can I do for you?`,
+        text: `📡 **Connectivity & IT Solutions** — Nexalink delivers enterprise-grade internet and IT infrastructure:\n\n• **Starlink Satellite Internet** — from US$40/mo, up to $77 Unlimited\n• **HD AI CCTV & Security Systems** — AI motion, night vision, remote streaming\n• **Structured Network Cabling & Wi-Fi** — full LAN/WAN design and installation\n• **VoIP & IP PBX Systems** — cloud telephone systems for offices\n• **IT Support & Managed Services** — on-site and remote SLA-backed support`,
         actions: [
-          { label: 'Check Account Balance', query: 'What is my current balance?' },
-          { label: 'AEG-4902 Renewal Status', query: 'When does vehicle AEG-4902 expire?' },
-          { label: 'Starlink $77/mo Details', query: 'Tell me about Starlink Infinity Connect' }
+          { label: 'Order Starlink via WhatsApp', actionType: 'whatsapp_order', service: 'Starlink Infinity Connect' },
+          { label: 'Request IT Consultation', actionType: 'human_whatsapp' },
+          { label: 'See Other Solutions', query: 'What solutions does Nexalink offer?' }
         ]
       };
     }
 
+    if (q.includes('vehicle service') || q.includes('licensing') || q.includes('vehicle services and licensing')) {
+      return {
+        text: `🚗 **Vehicle Services & Licensing** — Complete end-to-end vehicle admin:\n\n• **ZINARA Road License Renewals** — same-day physical disc delivery in Harare\n• **Vehicle Insurance** — third-party and comprehensive cover\n• **Japan Direct Car Imports** — auction sourcing, freight, ZIMRA clearance, registration & plates\n• **Fleet Management** — centralized tracking, renewal alerts & compliance management`,
+        actions: [
+          { label: 'Renew Vehicle via WhatsApp', actionType: 'whatsapp_order', service: 'ZINARA Road License Renewal' },
+          { label: 'Inquire Japan Car Import', actionType: 'whatsapp_order', service: 'Japan Car Direct Sourcing' },
+          { label: 'See Other Solutions', query: 'What solutions does Nexalink offer?' }
+        ]
+      };
+    }
+
+    if (q.includes('logistics') || q.includes('tracking') || q.includes('mobility') || q.includes('logistics, tracking')) {
+      return {
+        text: `📍 **Logistics, Tracking & Mobility** — Real-time visibility and fleet intelligence:\n\n• **GPS Motor Vehicle Trackers** — only **US$60** one-time, no monthly subscription!\n• Anti-theft remote engine kill / immobilizer\n• Real-time pinpoint tracking, geo-fencing & route history\n• Freight forwarding and logistics management solutions`,
+        actions: [
+          { label: 'Order $60 GPS Tracker', actionType: 'whatsapp_order', service: 'Motor Vehicle Tracker ($60)' },
+          { label: 'Talk to Logistics Team', actionType: 'human_whatsapp' },
+          { label: 'See Other Solutions', query: 'What solutions does Nexalink offer?' }
+        ]
+      };
+    }
+
+    if (q.includes('business solution') || q.includes('consulting')) {
+      return {
+        text: `💼 **Business Solutions & Consulting** — Strategic support to grow and streamline your operations:\n\n• **Business Process Automation** — custom workflow digitization\n• **Enterprise IT Consulting** — infrastructure planning & implementation\n• **Company Registration & Compliance** — business setup advisory\n• **Tender & Procurement Support** — bid preparation and submission assistance`,
+        actions: [
+          { label: 'Book a Business Consultation', actionType: 'human_whatsapp' },
+          { label: 'See Other Solutions', query: 'What solutions does Nexalink offer?' }
+        ]
+      };
+    }
+
+    if (q.includes('what solutions') || q.includes('what do you offer') || q.includes('core solutions') || q.includes('services you offer')) {
+      return {
+        text: `Here is a full overview of **Nexalink Solutions' core offerings:**\n\n📡 **1. Connectivity & IT Solutions** — Starlink, CCTV, networking, IT support\n🚗 **2. Vehicle Services & Licensing** — ZINARA, insurance, Japan imports\n📍 **3. Logistics, Tracking & Mobility** — $60 GPS trackers, fleet management\n💼 **4. Business Solutions & Consulting** — automation, compliance, procurement\n⚡ **5. Digital Utility & Bill Payments** — ZESA tokens, DStv, school fees, Harare bills\n\nWhich would you like to explore?`,
+        actions: CORE_SOLUTIONS
+      };
+    }
+
+    // 12. Friendly Greetings
+    if (q.startsWith('hi') || q.startsWith('hello') || q.startsWith('hey') || q.includes('good morning') || q.includes('good afternoon') || q.includes('maswera') || q.includes('mangwanani')) {
+      if (isLoggedIn && clientData?.accountNumber) {
+        return {
+          text: `Hello again, **${clientData.clientName || 'there'}**! 👋 Great to hear from you.\n\nI can help you manage your account **${clientData.accountNumber}**, check fleet renewal deadlines, process payments, or raise a support ticket. What can I do for you?`,
+          actions: [
+            { label: 'Check Account Balance', query: 'What is my current balance?' },
+            { label: 'Fleet Status', query: 'Check my fleet vehicle expiry dates' },
+            { label: 'Starlink Plans', query: 'What Starlink packages do you have?' }
+          ]
+        };
+      }
+      return {
+        text: `Hello! 👋 Welcome to **Nexalink Solutions**. I'm your AI assistant.\n\nWe offer five core solutions:\n\n📡 Connectivity & IT Solutions\n🚗 Vehicle Services & Licensing\n📍 Logistics, Tracking & Mobility\n💼 Business Solutions & Consulting\n⚡ Digital Utility & Bill Payments\n\nWould you like to know more about any of these?`,
+        actions: CORE_SOLUTIONS
+      };
+    }
+
     // Default Fallback
+    if (isLoggedIn && clientData?.accountNumber) {
+      return {
+        text: `I understand you're asking about "${userInput}".\n\nAs your Nexalink assistant for account **${clientData.accountNumber}**, I can help with:\n• 📡 **Starlink Infinity Connect** (from $40/mo, $77 unlimited)\n• 📍 **$60 GPS Vehicle Trackers** (+ anti-theft immobilizer)\n• 🚗 **ZINARA & Insurance Renewals** (same-day disc delivery)\n• 💰 **Account Balance & Invoices**\n• 🇯🇵 **Japan Car Direct Imports**\n• 💡 **ZESA & Utility Payments**\n\nFor tailored support, tap below to chat directly on WhatsApp!`,
+        actions: [
+          { label: 'Chat with Human on WhatsApp', actionType: 'human_whatsapp', queryContext: userInput },
+          { label: 'Create New Order', actionType: 'whatsapp_order' },
+          { label: 'My Account Status', query: 'What is my account status and balance?' }
+        ]
+      };
+    }
     return {
-      text: `I understand you're asking about "${userInput}".\n\nAs your Nexalink assistant, I can directly assist with:\n• 📡 **Starlink Infinity Connect** (from $40/mo, $77 unlimited)\n• 📍 **$60 GPS Vehicle Trackers** (+ anti-theft immobilizer)\n• 🚗 **ZINARA & Insurance Renewals** (same-day disc delivery)\n• 💰 **Account Balance & Invoices** (Account \`${clientData.accountNumber}\`)\n• 🇯🇵 **Japan Car Direct Imports**\n• 💡 **ZESA & Utility Payments**\n\nIf you need tailored human support, tap below to chat directly on WhatsApp!`,
+      text: `I understand you're asking about "${userInput}".\n\nHere is what Nexalink Solutions offers:\n\n📡 **Connectivity & IT Solutions** — Starlink, CCTV, IT support\n🚗 **Vehicle Services & Licensing** — ZINARA, insurance, Japan imports\n📍 **Logistics, Tracking & Mobility** — $60 GPS trackers, fleet mgmt\n💼 **Business Solutions & Consulting** — automation, compliance\n⚡ **Digital Utility & Bill Payments** — ZESA, DStv, school fees\n\nWould you like to explore one of these, or speak to our team?`,
       actions: [
-        { label: 'Chat with Human on WhatsApp', actionType: 'human_whatsapp', queryContext: userInput },
-        { label: 'Create New Order', actionType: 'whatsapp_order' },
-        { label: 'My Account Status', query: 'What is my account status and balance?' }
+        { label: 'View All Solutions', query: 'What solutions does Nexalink offer?' },
+        { label: 'Chat with Nexalink Team', actionType: 'human_whatsapp', queryContext: userInput },
+        { label: 'Create an Order', actionType: 'whatsapp_order' }
       ]
     };
   };
@@ -355,9 +451,15 @@ export default function ChatWidget({ clientData = MOCK_CLIENT_DATA, onOpenOrderM
                   <span className="text-[9px] font-extrabold px-1.5 py-0.2 rounded bg-sky-500/20 text-sky-200 border border-sky-400/30">AI</span>
                 </div>
                 <div className="text-[10px] text-slate-300 flex items-center gap-1">
-                  <span>Client:</span>
-                  <span className="font-mono text-emerald-300 font-bold">{clientData.accountNumber}</span>
-                  <span>• Harare HQ</span>
+                  {isLoggedIn && clientData?.accountNumber ? (
+                    <>
+                      <span>Client:</span>
+                      <span className="font-mono text-emerald-300 font-bold">{clientData.accountNumber}</span>
+                      <span>• Harare HQ</span>
+                    </>
+                  ) : (
+                    <span className="text-slate-400 italic">Guest — <a href="/portal" className="text-sky-300 hover:underline font-bold">Log in</a> for account access</span>
+                  )}
                 </div>
               </div>
             </div>
@@ -370,15 +472,25 @@ export default function ChatWidget({ clientData = MOCK_CLIENT_DATA, onOpenOrderM
           </div>
 
           {/* Account Context Banner */}
-          <div className="px-4 py-2 bg-slate-50 border-b border-slate-200 flex items-center justify-between text-[11px] text-slate-600">
-            <span className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              {clientData.companyName}
-            </span>
-            <span className="font-mono font-bold text-[#E63946]">
-              Due: US${clientData.balance.toFixed(2)}
-            </span>
-          </div>
+          {isLoggedIn && clientData?.accountNumber ? (
+            <div className="px-4 py-2 bg-slate-50 border-b border-slate-200 flex items-center justify-between text-[11px] text-slate-600">
+              <span className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                {clientData.companyName}
+              </span>
+              <span className="font-mono font-bold text-[#E63946]">
+                Due: US${clientData.balance.toFixed(2)}
+              </span>
+            </div>
+          ) : (
+            <div className="px-4 py-2 bg-sky-50 border-b border-sky-100 flex items-center justify-between text-[11px] text-sky-800">
+              <span className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span>
+                Browsing as Guest
+              </span>
+              <a href="/portal" className="font-extrabold text-sky-600 hover:underline">Sign In →</a>
+            </div>
+          )}
 
           {/* Messages Area */}
           <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3.5 bg-slate-50/50">
